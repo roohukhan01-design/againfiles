@@ -52,7 +52,7 @@ jobs:
           cp ic_launcher_round.xml app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
           cp splash_bg.xml splash_glow.xml splash_logo.xml app/src/main/res/drawable/
           cp build-1.gradle app/build.gradle
-          cp build.gradle settings.gradle gradle.properties .
+          # Root Gradle files are already in place; do not copy each file onto itself.
 
           echo "Android module files staged:"
           find app/src/main -type f | sort
