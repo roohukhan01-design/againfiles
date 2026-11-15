@@ -27,6 +27,19 @@ android {
         resources { excludes += ['/META-INF/{AL2.0,LGPL2.1}', '/META-INF/DEPENDENCIES'] }
     }
 }
+// Keep the legacy Vosk dependency aligned with the Kotlin stdlib used by AndroidX/Media3.
+// Kotlin 1.8 merged the JDK7/JDK8 extension classes into kotlin-stdlib; allowing
+// Vosk's older 1.6.21 jdk8 artifact beside stdlib 1.8.22 causes duplicate-class errors.
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'org.jetbrains.kotlin' &&
+            details.requested.name in ['kotlin-stdlib', 'kotlin-stdlib-jdk7', 'kotlin-stdlib-jdk8']) {
+            details.useVersion '1.8.22'
+            details.because 'Align Kotlin standard-library artifacts to prevent duplicate classes.'
+        }
+    }
+}
+
 dependencies {
     implementation 'androidx.activity:activity:1.9.0'
     implementation 'androidx.webkit:webkit:1.11.0'
